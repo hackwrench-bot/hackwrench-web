@@ -27,5 +27,11 @@ module TelegramEngineerWeb
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     # config.active_record.raise_in_transactional_callbacks = true
+
+    config.lograge.enabled = true
   end
 end
+
+
+Rails.logger = ActiveSupport::Logger.new "log/#{Rails.env}.log"
+Rails.logger.formatter = Logger::Formatter.new
