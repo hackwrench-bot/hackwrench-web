@@ -30,6 +30,11 @@ class User
   field :provider, type: String
   field :uid,      type: String
 
+  field :github_token, type: String
+
+  field :name, type: String
+  field :image_url, type: String
+
   ## Confirmable
   # field :confirmation_token,   type: String
   # field :confirmed_at,         type: Time
@@ -40,4 +45,19 @@ class User
   # field :failed_attempts, type: Integer, default: 0 # Only if lock strategy is :failed_attempts
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
+
+
+  def self.from_omniauth(auth)
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.name = auth.info.name   # assuming the user model has a name
+      user.email = auth.info.email if auth.info.email
+
+      image_url = auth.info.image
+      image_url.gsub!('http://','https://') if user.provider == 'facebook'
+      user.image_url = image_url
+    end
+
+    user.github_token = auth.credentials.token
+    user
+  end
 end

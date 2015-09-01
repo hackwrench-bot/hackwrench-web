@@ -1,0 +1,9 @@
+- if @our_hook
+  = @our_hook.to_yaml
+
+= form_tag(controller: 'client/github/repositories', action: 'update', id: @id)
+  .checkbox
+    label
+      = check_box_tag('enabled', '1', @enabled)
+      'Enabled
+  = submit_tag('Save', class: 'btn btn-default')

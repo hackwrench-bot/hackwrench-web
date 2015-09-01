@@ -1,0 +1,6 @@
+
+ul
+  - for repo in @repos
+    li
+      = link_to repo.full_name, repo.html_url
+      = link_to('Setup notifications', client_github_repository_path(repo.full_name))

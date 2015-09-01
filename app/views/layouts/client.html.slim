@@ -1,0 +1,15 @@
+doctype 5
+html
+  head
+    title TelegramEngineerWeb
+    = stylesheet_link_tag 'client', media: 'all'
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+    .container
+      header Signed in as #{current_user.name}. #{link_to('Logout', destroy_user_session_path, :method => :delete)}.
+
+      div
+        = render '/flash_message'
+
+      = yield
