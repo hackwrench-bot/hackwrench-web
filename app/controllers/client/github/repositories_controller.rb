@@ -19,7 +19,7 @@ class Client::Github::RepositoriesController < ClientController
           @id,
           'web',
           {
-              :url => "http://#{Rails.configuration.github_webhook_hostname}/webhook",
+              :url => url_for(controller: '/webhooks/github', action: 'callback'),
               :content_type => 'json'
           },
           {

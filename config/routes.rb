@@ -11,10 +11,13 @@ Rails.application.routes.draw do
 
       resources :repositories, only: [:index, :show]
     end
+
+    get '/chats/configure/:chat_id', to: 'chats#configure', as: 'chats_configure'
+    resources :chats, only: [:index]
   end
 
   namespace :webhooks do
-
+    post '/github/:id', to: 'github#callback'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

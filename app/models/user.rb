@@ -35,6 +35,8 @@ class User
   field :name, type: String
   field :image_url, type: String
 
+  has_many :chats
+
   ## Confirmable
   # field :confirmation_token,   type: String
   # field :confirmed_at,         type: Time
