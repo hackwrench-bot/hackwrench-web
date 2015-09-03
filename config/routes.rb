@@ -3,21 +3,22 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  get '/client' => 'client/github/repositories#index'
+  get '/client', to: 'client/chats#index'
 
   namespace :client do
-    namespace :github do
-      post '/repositories/:id', to: 'repositories#update'
-
-      resources :repositories, only: [:index, :show]
-    end
-
     get '/chats/configure/:chat_id', to: 'chats#configure', as: 'chats_configure'
-    resources :chats, only: [:index]
+
+    resources :chats, only: [:index] do
+      namespace :github do
+        post '/repositories/:id', to: 'repositories#update'
+
+        resources :repositories, only: [:index, :show]
+      end
+    end
   end
 
   namespace :webhooks do
-    post '/github/:id', to: 'github#callback'
+    post '/github/:chat_id', to: 'github#callback', as: 'github'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

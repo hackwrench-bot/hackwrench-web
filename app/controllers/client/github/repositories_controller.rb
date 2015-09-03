@@ -1,37 +1,26 @@
 class Client::Github::RepositoriesController < ClientController
+  before_action :load_chat
 
   def index
-    @repos = @github.repositories
+    @repos = @github_service.github_client.repositories
   end
 
   def show
     @id = params[:id]
-    @our_hook = get_hook @id
-    @enabled = (not @our_hook.nil?)
   end
 
   def update
     @id = params[:id]
-    hook = get_hook @id
+    enabled = @chat.github_repo_enabled? @id
 
-    if hook.nil? and params[:enabled]
-      @github.create_hook(
-          @id,
-          'web',
-          {
-              :url => url_for(controller: '/webhooks/github', action: 'callback'),
-              :content_type => 'json'
-          },
-          {
-              :events => ['push', 'pull_request', 'issues', 'issue_comment'],
-              :active => true
-          }
-      )
+    if not enabled and params[:enabled]
+      @github_service.create_hook @id, @chat
 
-      flash[:success] = 'Created web hook!'
-    elsif hook and not params[:enabled]
-      @github.remove_hook(@id, hook.id)
-      flash[:success] = 'Removed web hook!'
+      flash[:success] = 'Web hook created!'
+    elsif enabled and not params[:enabled]
+      @github_service.delete_hook @id, @chat
+
+      flash[:success] = 'Web hook removed.'
     end
 
     redirect_to action: 'show'
@@ -39,16 +28,7 @@ class Client::Github::RepositoriesController < ClientController
 
   protected
 
-  # def repository_params
-  #   params.require(:repository).permit(:full_name, :enabled)
-  # end
-
-  def get_hook(full_name)
-    hooks = @github.hooks full_name
-
-    our_hook = hooks.select {|h|
-      (not h.config.url.nil?) and h.config.url.include?(Rails.configuration.github_webhook_hostname)
-    }
-    our_hook[0]
+  def load_chat
+    @chat = Chat.find_by(chat_id: params[:chat_id])
   end
 end

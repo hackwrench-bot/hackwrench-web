@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'telegram/bot'
 
 describe ChatService do
   describe 'create_chat' do
@@ -10,6 +11,7 @@ describe ChatService do
           'message_id' => 6,
           'chat' => {'id' => -19463090, 'title' => 'Testing engineerrobot'}
       }
+      msg = Telegram::Bot::Types::Message.new(msg)
 
       chat = ChatService.new.create_chat msg
       expect(chat.chat_id).not_to be_nil

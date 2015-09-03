@@ -5,6 +5,6 @@ class ClientController < ApplicationController
 
   protected
   def setup_github_client
-    @github = Octokit::Client.new(:access_token => current_user.github_token)
+    @github_service = GithubService.new(current_user.github_token)
   end
 end

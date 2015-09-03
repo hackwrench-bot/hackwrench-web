@@ -1,9 +1,14 @@
-- if @our_hook
-  = @our_hook.to_yaml
+/- if @our_hook
+/  = @our_hook.to_yaml
+
+p
+  = link_to 'Back to repos', client_chat_github_repositories_path(@chat.chat_id)
+
+h2 GitHub repo #{@id}
 
 = form_tag(controller: 'client/github/repositories', action: 'update', id: @id)
   .checkbox
     label
-      = check_box_tag('enabled', '1', @enabled)
-      'Enabled
+      = check_box_tag('enabled', '1', @chat.github_repo_enabled?(@id))
+      'Enable notifications
   = submit_tag('Save', class: 'btn btn-default')

@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+ENV['RAILS_ENV'] = ENV['RAILS_ENV'] || 'development'
+
+require File.expand_path('../../config/environment',  __FILE__)
+require 'telegram/bot'
+
+
+Rails.logger = ActiveSupport::Logger.new "log/telegram_#{Rails.env}.log"
+Rails.logger.formatter = Logger::Formatter.new
+
+Rails.logger.info 'Starting telegram bot loop...'
+
+token = Rails.application.secrets[:telegram_bot_token]
+Telegram::Bot::Client.run(token) do |bot|
+  chat_service = ChatService.new
+
+  bot.listen do |msg|
+    begin
+      case msg.text
+        when '/configure'
+          Rails.logger.info "Received /configure msg from #{msg.from.try(:username) || msg.from.try(:first_name)}"
+
+          chat = chat_service.create_chat msg
+          configure_url = chat_service.configure_url chat
+
+          bot.api.sendMessage(chat_id: msg.chat.id, text: "Hello, please visit #{configure_url} to configure GitHub notifications.")
+      end
+    rescue
+      Rails.logger.error $!
+    end
+  end
+end

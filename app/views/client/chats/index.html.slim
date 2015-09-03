@@ -1,3 +1,12 @@
-ul
+h2 Connected chats
+
+.list-group
   - for chat in @chats
-    li #{chat.chat_id}
+    a.list-group-item(href=client_chat_github_repositories_path(chat.chat_id))
+      '#{chat.title || '[no title]'}
+
+      - repos_length = chat.github_repos.present? ? chat.github_repos.length : 0
+      - if repos_length > 0
+        span.badge.green #{repos_length}
+      - else
+        span.badge #{repos_length}

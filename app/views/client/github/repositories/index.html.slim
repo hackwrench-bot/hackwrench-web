@@ -1,6 +1,13 @@
+p
+  = link_to 'Back to chats', client_chats_path
 
-ul
+h2 Available GitHub repos
+
+.list-group
   - for repo in @repos
-    li
-      = link_to repo.full_name, repo.html_url, target: '_blank'
-      = link_to('Setup notifications', client_github_repository_path(repo.full_name))
+    a.list-group-item(href=client_chat_github_repository_path(@chat.chat_id, repo.full_name))
+      '#{repo.full_name}
+      - if @chat.github_repo_enabled? repo.full_name
+        span.badge.green enabled
+      - else
+        span.badge disabled
