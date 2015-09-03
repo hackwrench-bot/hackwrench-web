@@ -23,12 +23,25 @@ class Webhooks::GithubController < ApplicationController
   protected
 
   def push_event(chat, body)
+    if body['commits'].length > 1
+      msg = '%s pushed %d commits %s'
+    else
+      msg = '%s pushed %d commit %s'
+    end
 
+    msg = msg % [body['pusher']['name'], body['commits'].length, body['compare']]
+    msg = repo_msg(body, msg)
+
+    ChatService.new.send_update chat, msg
   end
 
   def issues_event(chat, body)
-    msg = "#{body['repository']['full_name']}: #{body['action']} issue by #{body['issue']['user']['login']} #{body['issue']['html_url']}"
+    msg = repo_msg(body, "#{body['action']} issue by #{body['issue']['user']['login']} #{body['issue']['html_url']}")
 
     ChatService.new.send_update chat, msg
+  end
+
+  def repo_msg(body, msg)
+    return "#{body['repository']['full_name']}: #{msg}"
   end
 end
