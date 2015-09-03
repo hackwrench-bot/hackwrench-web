@@ -27,7 +27,7 @@ class Webhooks::GithubController < ApplicationController
   end
 
   def issues_event(chat, body)
-    msg = "#{body['repository']['full_name']}: #{body['action']} issue by #{body['user']['login']} #{body['html_url']}"
+    msg = "#{body['repository']['full_name']}: #{body['action']} issue by #{body['issue']['user']['login']} #{body['issue']['html_url']}"
 
     ChatService.new.send_update chat, msg
   end

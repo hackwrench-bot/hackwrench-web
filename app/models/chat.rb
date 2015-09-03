@@ -46,6 +46,8 @@ class Chat
   protected
 
   def generate_chat_id
-    self.chat_id = Digest::MD5.hexdigest([Time.now, telegram_chat_id, rand].join)
+    if self.chat_id.nil?
+      self.chat_id = Digest::MD5.hexdigest([Time.now, telegram_chat_id, rand].join)
+    end
   end
 end
