@@ -41,7 +41,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.bot_name = 'toolboxbot_dev'
+  config.bot_name = 'dev_toolbox_bot'
   config.web_app_hostname = 'localhost'
   config.github_webhook_hostname = 'localhost'
 end

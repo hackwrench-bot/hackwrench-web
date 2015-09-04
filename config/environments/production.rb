@@ -80,7 +80,7 @@ Rails.application.configure do
   # TODO: update
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.bot_name = 'toolboxbot'
+  config.bot_name = 'toolbox_bot'
   config.web_app_hostname = 'teng.henadzit.com'
   config.github_webhook_hostname = 'teng.henadzit.com'
 end

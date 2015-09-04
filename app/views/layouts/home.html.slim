@@ -6,31 +6,33 @@ html
     = javascript_include_tag 'application'
     = csrf_meta_tags
   body
-    .navbar.navbar-te
-      .navbar-inner
-        .container.clearfix
-          ul.nav.navbar-nav
-            li.active
-              = link_to 'Home', root_path
-          - if user_signed_in?
-            ul.nav.navbar-nav.navbar-right
-              li
-                .current-user Signed in as #{current_user.name}
-              li
-                = link_to('Logout', destroy_user_session_path, :method => :delete)
-          - else
-            ul.nav.navbar-nav.navbar-right
-              li
-                a(href=omniauth_authorize_path(:user, 'github') class='login-with-github')
-                  |Login with
-                  = image_tag('GitHub-Mark-64px.png')
-                /= link_to 'Login',
+    #wrap-te
+      #main-te
+        .navbar.navbar-te
+          .navbar-inner
+            .container.clearfix
+              ul.nav.navbar-nav
+                li.active
+                  = link_to 'Home', root_path
+              - if user_signed_in?
+                ul.nav.navbar-nav.navbar-right
+                  li
+                    .current-user Signed in as #{current_user.name}
+                  li
+                    = link_to('Logout', destroy_user_session_path, :method => :delete)
+              - else
+                ul.nav.navbar-nav.navbar-right
+                  li
+                    a(href=omniauth_authorize_path(:user, 'github') class='login-with-github')
+                      |Login with
+                      = image_tag('GitHub-Mark-64px.png')
+                    /= link_to 'Login',
 
-    .page-te
-      .container
-        = render '/flash_message'
+        .page-te
+          .container
+            = render '/flash_message'
 
-        = yield
+            = yield
 
     footer.footer-te
       .container
