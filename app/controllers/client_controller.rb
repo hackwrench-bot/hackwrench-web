@@ -7,4 +7,5 @@ class ClientController < ApplicationController
   def setup_github_client
     @github_service = GithubService.new(current_user.github_token)
   end
+
 end

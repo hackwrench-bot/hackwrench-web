@@ -1,10 +1,38 @@
 doctype 5
 html
   head
-    title TelegramEngineerWeb
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    title TeleToolBox - GitHub bot/notifications for Telegram
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
     = csrf_meta_tags
   body
-    .container
-      = yield
+    .navbar.navbar-te
+      .navbar-inner
+        .container.clearfix
+          ul.nav.navbar-nav
+            li.active
+              = link_to 'Home', root_path
+          - if user_signed_in?
+            ul.nav.navbar-nav.navbar-right
+              li
+                .current-user Signed in as #{current_user.name}
+              li
+                = link_to('Logout', destroy_user_session_path, :method => :delete)
+          - else
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href=omniauth_authorize_path(:user, 'github') class='login-with-github')
+                  |Login with
+                  = image_tag('GitHub-Mark-64px.png')
+                /= link_to 'Login',
+
+    .page-te
+      .container
+        = render '/flash_message'
+
+        = yield
+
+    footer.footer-te
+      .container
+        noindex
+          p.contacts-text You can contact the creator via email <a href="emailto:henadzi.tsaryk@gmail.com">henadzi.tsaryk@gmail.com</a> or telegram <strong>henadzit</strong>.
