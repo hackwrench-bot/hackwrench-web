@@ -6,9 +6,13 @@ p
 
 h2 GitHub repo #{@id}
 
+p &nbsp;
+
 = form_tag(controller: 'client/github/repositories', action: 'update', id: @id)
   .checkbox
     label
       = check_box_tag('enabled', '1', @chat.github_repo_enabled?(@id))
-      'Enable notifications
+      'Enable notifications about
+      strong> pushes, issues and pull requests
+      'in the chat "#{@chat.title}"
   = submit_tag('Save', class: 'btn btn-default')
