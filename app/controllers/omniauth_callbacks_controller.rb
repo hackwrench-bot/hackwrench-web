@@ -6,7 +6,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     sign_in @user, :event => :authentication # this will throw if @user is not activated
     flash[:success] = 'Thanks for joining us!!'
 
-    redirect_to client_path
+    redirect_to session['user_return_to'] || client_path
   end
 
   alias_method :github, :all

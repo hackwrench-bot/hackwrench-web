@@ -5,6 +5,14 @@ class ChatService
     @telegram_api = Telegram::Bot::Api.new(Rails.application.secrets[:telegram_bot_token])
   end
 
+  def bot_id
+    @telegram_api.getMe()['result']['id']
+  end
+
+  def bot_name
+    Rails.configuration.bot_name
+  end
+
   def create_chat(telegram_msg)
     telegram_user_id = telegram_msg.from.id
     telegram_chat = telegram_msg.chat

@@ -3,6 +3,7 @@ lock '3.4.0'
 
 set :application, 'telegram-engineer-app'
 
+set :linked_dirs, %w{log tmp/pids public/assets tmp/cache tmp/sockets vendor/bundle public/system }
 set :linked_files, fetch(:linked_files, []).push('config/mongoid.yml', 'config/secrets.yml')
 
 set :keep_releases, 5

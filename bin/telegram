@@ -11,23 +11,53 @@ Rails.logger.formatter = Logger::Formatter.new
 
 Rails.logger.info 'Starting telegram bot loop...'
 
-token = Rails.application.secrets[:telegram_bot_token]
-Telegram::Bot::Client.run(token) do |bot|
-  chat_service = ChatService.new
 
-  bot.listen do |msg|
-    begin
-      case msg.text
-        when '/configure'
-          Rails.logger.info "Received /configure msg from #{msg.from.try(:username) || msg.from.try(:first_name)}"
+class TelegramBot
+  def initialize
+    @chat_service = ChatService.new
+  end
 
-          chat = chat_service.create_chat msg
-          configure_url = chat_service.configure_url chat
+  def run
+    token = Rails.application.secrets[:telegram_bot_token]
+    bot_id = @chat_service.bot_id
 
-          bot.api.sendMessage(chat_id: msg.chat.id, text: "Hello, please visit #{configure_url} to configure GitHub notifications.")
+    Telegram::Bot::Client.run(token) do |bot|
+      bot.listen do |msg|
+        begin
+          if msg.new_chat_participant.try(:id) == bot_id
+            new_member msg
+          elsif msg.text
+            case msg.text.strip
+              when '/configure'
+                cmd_configure msg
+            end
+          end
+        rescue
+          Rails.logger.error $!
+        end
       end
-    rescue
-      Rails.logger.error $!
     end
   end
+
+  protected
+
+  def new_member(msg)
+    Rails.logger.info "Received new member msg from #{msg.from.try(:username) || msg.from.try(:first_name)}"
+    send_configure_text(msg)
+  end
+
+  def cmd_configure(msg)
+    Rails.logger.info "Received /configure msg from #{msg.from.try(:username) || msg.from.try(:first_name)}"
+    send_configure_text(msg)
+  end
+
+  def send_configure_text(msg)
+    chat = @chat_service.create_chat msg
+    configure_url = @chat_service.configure_url chat
+
+    @chat_service.send_update(chat, "Hello, please visit #{configure_url} to configure GitHub notifications for this chat.")
+  end
 end
+
+
+TelegramBot.new.run

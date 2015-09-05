@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => 'omniauth_callbacks' }
+  devise_for :users, :controllers => { :sessions => 'sessions', :omniauth_callbacks => 'omniauth_callbacks' } do
+    # get '/users/sign_in', to: 'sessions#new'
+  end
 
   root to: 'home#index'
 
