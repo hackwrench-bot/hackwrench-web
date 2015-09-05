@@ -15,6 +15,10 @@ class Webhooks::GithubController < ApplicationController
         push_event chat, body
       when 'issues'
         issues_event chat, body
+      when 'issue_comment'
+        comment_issue chat, body
+      when 'pull_request'
+        pull_request chat, body
     end
 
     render nothing: true
@@ -36,8 +40,16 @@ class Webhooks::GithubController < ApplicationController
   end
 
   def issues_event(chat, body)
-    msg = repo_msg(body, "#{body['action']} issue by #{body['issue']['user']['login']} #{body['issue']['html_url']}")
+    msg = repo_msg(body, "#{body['action']} issue by #{body['sender']['login']} #{body['issue']['html_url']}")
+    ChatService.new.send_update chat, msg
+  end
 
+  def comment_issue(chat, body)
+    # do not send it for now
+  end
+
+  def pull_request(chat, body)
+    msg = repo_msg(body, "#{body['action']} pull request by #{body['sender']['login']} #{body['pull_request']['html_url']}")
     ChatService.new.send_update chat, msg
   end
 
