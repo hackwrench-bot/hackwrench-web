@@ -13,6 +13,7 @@ class Chat
   # the user who invited the bot
   field :telegram_user_id, type: Integer
   field :title, type: String
+  field :private, type: Boolean
 
   field :github_repos, type: Array
 

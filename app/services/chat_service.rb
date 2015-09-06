@@ -20,11 +20,15 @@ class ChatService
     chat_title = telegram_chat.try(:title) || telegram_chat.try(:username) || telegram_chat.try(:first_name)
 
     chat = Chat.find_or_initialize_by(telegram_chat_id: telegram_chat_id)
+    # update it always so title changes get synced
+    chat.title = chat_title
+
     if chat.new_record?
       chat.telegram_user_id = telegram_user_id
-      chat.title = chat_title
-      chat.save!
+      chat.private = (telegram_chat.try(:username) || telegram_chat.try(:first_name)) ? true : false
     end
+
+    chat.save!
 
     chat
   end

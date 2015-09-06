@@ -7,9 +7,13 @@ h2 Connected chats
         '#{chat.title || '[no title]'}
 
         - repos_length = chat.github_repos.present? ? chat.github_repos.length : 0
+
         - if repos_length > 0
           span.badge.green Enabled repos: #{repos_length}
         - else
           span.badge No enabled repos
+
+        - if chat.private
+          span.badge.info private
 - else
   = render '/add_bot_text'
