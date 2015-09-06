@@ -1,7 +1,7 @@
 doctype 5
 html
   head
-    title TeleToolBox - GitHub bot/notifications for Telegram
+    title Hackwrench Bot - GitHub bot/notifications for Telegram
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
@@ -38,3 +38,5 @@ html
       .container
         noindex
           p.contacts-text You can contact the creator via email <a href="emailto:henadzi.tsaryk@gmail.com">henadzi.tsaryk@gmail.com</a> or telegram <strong>henadzit</strong>.
+
+    = render '/ga'

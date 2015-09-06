@@ -2,7 +2,8 @@ class Client::Github::RepositoriesController < ClientController
   before_action :load_chat
 
   def index
-    @repos = @github_service.github_client.repositories
+    @user_repos = @github_service.user_repos
+    @org_repos = @github_service.org_repos
   end
 
   def show
@@ -14,9 +15,12 @@ class Client::Github::RepositoriesController < ClientController
     enabled = @chat.github_repo_enabled? @id
 
     if not enabled and params[:enabled]
-      @github_service.create_hook @id, @chat
+      if @github_service.create_hook @id, @chat
+        flash[:success] = 'Web hook created!'
+      else
+        flash[:error] = 'You need to grant access to Hackwrench Bot on this repo or organization on GitHub.'
+      end
 
-      flash[:success] = 'Web hook created!'
     elsif enabled and not params[:enabled]
       @github_service.delete_hook @id, @chat
 

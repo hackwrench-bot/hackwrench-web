@@ -1,7 +1,8 @@
 doctype 5
 html
   head
-    title TeleToolBox - GitHub bot/notifications for Telegram
+    title Hackwrench Bot - GitHub notifications for Telegram
+    link rel="shortcut icon" href="/favicon.ico"
 
     = stylesheet_link_tag 'application', media: 'all'
     = stylesheet_link_tag 'client', media: 'all'
@@ -32,3 +33,5 @@ html
       .container
         noindex
           p.contacts-text You can contact the creator via email <a href="emailto:henadzi.tsaryk@gmail.com">henadzi.tsaryk@gmail.com</a> or telegram <strong>henadzit</strong>.
+
+    = render '/ga'

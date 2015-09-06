@@ -1,0 +1,6 @@
+a.list-group-item(href=client_chat_github_repository_path(@chat.chat_id, repo.full_name))
+  '#{repo.full_name.sub('/', ' / ')}
+  - if @chat.github_repo_enabled? repo.full_name
+    span.badge.green enabled
+  - else
+    span.badge disabled

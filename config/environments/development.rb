@@ -44,6 +44,7 @@ Rails.application.configure do
   config.bot_name = 'dev_toolbox_bot'
   config.web_app_hostname = 'localhost'
   config.github_webhook_hostname = 'localhost'
+  config.github_app_permissions_link = 'https://github.com/settings/connections/applications/46efee0db1b850299bbb'
 end
 
 

@@ -3,12 +3,12 @@ set :scm, :copy
 set :rails_env, 'production'
 set :deploy_to, "/home/teng/apps/#{fetch(:application)}/#{fetch(:rails_env)}"
 
-set :nginx_domains, 'teng.henadzit.com'
-set :nginx_redirected_domains, 'www.teng.henadzit.com'
+set :nginx_domains, 'hackwrench.us'
+set :nginx_redirected_domains, 'www.hackwrench.us'
 set :app_server, true
 set :app_server_socket, "#{shared_path}/tmp/sockets/puma.sock"
 
-server 'teng.henadzit.com', user: 'teng', roles: %w{app db web}
+server 'hackwrench.us', user: 'teng', roles: %w{app db web}
 
 
 # Custom SSH Options

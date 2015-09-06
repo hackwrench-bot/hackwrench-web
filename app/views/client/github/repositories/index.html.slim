@@ -1,13 +1,22 @@
 p
   = link_to 'Back to chats', client_chats_path
 
-h2 Available GitHub repos
+h2 Your GitHub repos
 
-.list-group
-  - for repo in @repos
-    a.list-group-item(href=client_chat_github_repository_path(@chat.chat_id, repo.full_name))
-      '#{repo.full_name}
-      - if @chat.github_repo_enabled? repo.full_name
-        span.badge.green enabled
-      - else
-        span.badge disabled
+- if @user_repos && @user_repos.length > 0
+  .list-group
+    - for repo in @user_repos
+      = render 'client/github/repositories/repo_list_item', repo: repo
+- else
+  p No repos found.
+
+h2 Org Github repos
+
+- if @org_repos && @org_repos.length > 0
+  .list-group
+    - for repo in @org_repos
+      = render 'client/github/repositories/repo_list_item', repo: repo
+- else
+  p No repos found.
+
+p.lead Don't see your organization repos? <a href="#{Rails.configuration.github_app_permissions_link}" target="_blank">Grant permissions</a> to the Hackwrench Bot application in the organization settings on Github.
