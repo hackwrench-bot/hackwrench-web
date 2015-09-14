@@ -2,6 +2,10 @@ require 'rails_helper'
 require 'telegram/bot'
 
 describe ChatService do
+  after :each do
+    cleanup_db
+  end
+
   describe 'create_chat' do
     it 'creates a Chat from group_chat_created msg' do
       msg = {

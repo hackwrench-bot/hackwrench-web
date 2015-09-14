@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe Webhooks::GithubController do
+  after :each do
+    cleanup_db
+  end
+
   describe 'callback' do
     it 'returns 404 if no chat found' do
       expect {

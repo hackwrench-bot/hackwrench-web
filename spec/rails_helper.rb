@@ -38,3 +38,9 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 end
+
+
+def cleanup_db
+  Chat.delete_all
+  User.delete_all
+end
