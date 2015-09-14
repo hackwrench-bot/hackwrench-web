@@ -4,3 +4,6 @@ a.list-group-item(href=client_chat_github_repository_path(@chat.chat_id, repo.fu
     span.badge.green enabled
   - else
     span.badge disabled
+
+  - if repo.try(:created_on_webhook)
+    span.badge.info configured manually

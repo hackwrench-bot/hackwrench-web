@@ -67,6 +67,46 @@ describe Webhooks::GithubController do
       expect(response.status).to eq(200)
     end
 
+    it 'persists a new repo object on a ping event' do
+      chat_id = 'github_controller_pqumd2'
+      Chat.create! chat_id: chat_id
+
+      request.headers['X-GitHub-Event'] = 'ping'
+      body = load_file('github_controller_ping_event.json')
+
+      post :callback, body, chat_id: chat_id
+      expect(response.status).to eq(200)
+
+      body_json = JSON.parse body
+      chat = Chat.find_by chat_id: chat_id
+
+      github_repo = chat.find_github_repo body_json['repository']['full_name']
+      expect(github_repo).not_to be_nil
+      expect(github_repo.name).to eq(body_json['repository']['full_name'])
+      expect(github_repo.created_on_webhook).to eq(true)
+    end
+
+    it 'handles ping event when repo object already exists' do
+
+      request.headers['X-GitHub-Event'] = 'ping'
+      body = load_file('github_controller_ping_event.json')
+      body_json = JSON.parse body
+
+      chat_id = 'github_controller_pqusdf12'
+      github_repo = GithubRepo.new name: body_json['repository']['full_name']
+      Chat.create! chat_id: chat_id, github_repos: [github_repo]
+
+      post :callback, body, chat_id: chat_id
+      expect(response.status).to eq(200)
+
+      chat = Chat.find_by chat_id: chat_id
+
+      github_repo = chat.find_github_repo body_json['repository']['full_name']
+      expect(github_repo).not_to be_nil
+      expect(github_repo.name).to eq(body_json['repository']['full_name'])
+      expect(github_repo.created_on_webhook).to eq(false)
+    end
+
     def load_file(file_name)
       File.open(File.join(File.dirname(__FILE__), file_name)).read
     end

@@ -8,11 +8,21 @@ h2 GitHub repo #{@id}
 
 p &nbsp;
 
-= form_tag(controller: 'client/github/repositories', action: 'update', id: @id)
-  .checkbox
-    label
-      = check_box_tag('enabled', '1', @chat.github_repo_enabled?(@id))
-      'Enable notifications about
-      strong> pushes, issues and pull requests
-      'in the chat "#{@chat.title}"
-  = submit_tag('Save', class: 'btn btn-default')
+- if @github_repo && @github_repo.disabled && @github_repo.created_on_webhook
+  p
+    'Follow
+    = link_to 'the guide', client_chat_setup_webhook_howto_path(@chat.chat_id)
+    '
+    'to enable notifications from this repo.
+- else
+  = form_tag(controller: 'client/github/repositories', action: 'update', id: @id)
+    .checkbox
+      label
+        = check_box_tag('enabled', '1', @chat.github_repo_enabled?(@id))
+        - if @github_repo && @github_repo.created_on_webhook
+          'Enabled notifications (all configured events in Github will cause a notification)
+        - else
+          'Enable notifications about
+          strong> pushes, issues and pull requests
+          'in the chat "#{@chat.title}"
+    = submit_tag('Save', class: 'btn btn-default')

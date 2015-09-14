@@ -63,4 +63,5 @@ end
 
 group :staging, :production do
   gem 'puma'
+  gem 'newrelic_rpm'
 end

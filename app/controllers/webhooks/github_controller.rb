@@ -10,6 +10,8 @@ class Webhooks::GithubController < ApplicationController
 
     Rails.logger.info "github callback telegram_chat_id=#{chat.telegram_chat_id} event_type=#{event_type} guid=#{guid} body=#{body}"
 
+    create_repo_if_needed chat, body
+
     case event_type
       when 'push'
         push_event chat, body
@@ -55,5 +57,21 @@ class Webhooks::GithubController < ApplicationController
 
   def repo_msg(body, msg)
     return "#{body['repository']['full_name']}: #{msg}"
+  end
+
+  # if webhook set up manually, we aren't aware of repo yet
+  def create_repo_if_needed(chat, body)
+    repo = body['repository']
+
+    if repo.nil?
+      return
+    end
+
+    github_repo = chat.find_github_repo repo['full_name']
+
+    if github_repo.nil?
+      github_repo = GithubRepo.new(name: repo['full_name'], created_on_webhook: true)
+      chat.append_github_repo github_repo
+    end
   end
 end

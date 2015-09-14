@@ -10,7 +10,7 @@ h2 Your GitHub repos
 - else
   p No repos found.
 
-h2 Org Github repos
+h2 Org and private Github repos
 
 - if @org_repos && @org_repos.length > 0
   .list-group
@@ -19,4 +19,8 @@ h2 Org Github repos
 - else
   p No repos found.
 
-p.lead Don't see your organization repos? <a href="#{Rails.configuration.github_app_permissions_link}" target="_blank">Grant permissions</a> to the Hackwrench Bot application in the organization settings on Github.
+p.lead
+  'Don't see your repo?
+  = link_to 'Configure', client_chat_setup_webhook_howto_path(@chat.chat_id)
+  '
+  'it manually.

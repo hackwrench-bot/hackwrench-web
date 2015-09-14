@@ -1,0 +1,36 @@
+h2 How to setup notifications manually
+
+p Hey, we don't want to have access to your private data. If you want to get notifications about events in your private repos, follow this guide.
+
+p &nbsp;
+
+p
+  'Go to
+  strong> Webhooks & services settings
+  'of your repo. Click on
+  strong Add webhook
+  '.
+
+p
+  = image_tag('setup_webhook_howto/repo_settings_small.jpg', class: 'instruction-img')
+
+p &nbsp;
+
+p Fill the form
+
+dl.dl-horizontal.dl-horizontal-webhook-te
+  dt Payload URL
+  dd
+    = @callback_url
+  dt Content type
+  dd application/json
+
+p Then select the events that you'd like to trigger notifications.
+
+p
+  = image_tag('setup_webhook_howto/create_webhook_small.jpg', class: 'instruction-img')
+
+p
+  'Save. The repo should appear in
+  = link_to 'the list', client_chat_github_repositories_path(@chat.chat_id)
+  '.

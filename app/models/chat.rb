@@ -6,6 +6,7 @@ class Chat
   before_create :generate_chat_id
 
   has_and_belongs_to_many :users
+  embeds_many :github_repos
 
   field :chat_id, type: String
   # user or group chat id
@@ -15,33 +16,28 @@ class Chat
   field :title, type: String
   field :private, type: Boolean
 
-  field :github_repos, type: Array
-
   index({ chat_id: 1 }, { unique: true })
   index({ telegram_chat_id: 1 }, { unique: true })
 
-  def append_github_repo(github_repo_full_name)
-    if github_repos.nil?
-      self.github_repos = []
-    end
-
-    if not github_repos.include? github_repo_full_name
-      github_repos.push github_repo_full_name
-    end
+  def find_github_repo(name)
+    github_repos.detect {|r| r.name == name}
   end
 
-  def remove_github_repo(github_repo_full_name)
-    if github_repos.nil?
-      return
+  def append_github_repo(github_repo)
+    repo = find_github_repo github_repo.name
+
+    if repo
+      raise "#{github_repo.name} github repo already added"
     end
 
-    github_repos.delete github_repo_full_name
+    github_repos.push github_repo
+    save!
   end
 
-  def github_repo_enabled?(github_repo_full_name)
-    return false if github_repos.nil?
+  def github_repo_enabled?(github_repo_name)
+    repo = find_github_repo github_repo_name
 
-    return github_repos.include? github_repo_full_name
+    return repo && (not repo.disabled)
   end
 
   protected

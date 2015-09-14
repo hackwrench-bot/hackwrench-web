@@ -10,7 +10,10 @@ Rails.application.routes.draw do
   namespace :client do
     get '/chats/configure/:chat_id', to: 'chats#configure', as: 'chats_configure'
 
+
     resources :chats, only: [:index] do
+      get '/setup_webhook_howto', to: 'chats#setup_webhook_howto'
+
       namespace :github do
         post '/repositories/:id', to: 'repositories#update'
 

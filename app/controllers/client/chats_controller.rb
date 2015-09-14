@@ -12,4 +12,9 @@ class Client::ChatsController < ClientController
   def index
     @chats = Chat.where(user_ids: current_user.id)
   end
+
+  def setup_webhook_howto
+    @chat = Chat.find_by chat_id: params[:chat_id]
+    @callback_url = GithubService.new(current_user.github_token).callback_url @chat
+  end
 end

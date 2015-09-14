@@ -35,3 +35,5 @@ end
 
 Rails.logger = ActiveSupport::Logger.new "log/#{Rails.env}.log"
 Rails.logger.formatter = Logger::Formatter.new
+
+
