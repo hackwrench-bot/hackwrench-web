@@ -28,6 +28,12 @@ class GithubService
   end
 
   def create_hook(repo_full_name, chat)
+    github_repo = chat.find_github_repo repo_full_name
+
+    if github_repo and github_repo.created_on_webhook
+      raise 'Action is not allowed'
+    end
+
     begin
       @github_client.create_hook(
           repo_full_name,
@@ -41,8 +47,6 @@ class GithubService
               :active => true
           }
       )
-
-      github_repo = chat.find_github_repo repo_full_name
 
       if github_repo
         github_repo.disabled = false
@@ -60,6 +64,12 @@ class GithubService
   end
 
   def delete_hook(repo_full_name, chat)
+    github_repo = chat.find_github_repo repo_full_name
+
+    if github_repo and github_repo.created_on_webhook
+      raise 'Action is not allowed'
+    end
+
     begin
       github_hooks = @github_client.hooks repo_full_name
 
@@ -77,7 +87,6 @@ class GithubService
     end
 
     # TODO this should rollback hook deletion if fails
-    github_repo = chat.find_github_repo repo_full_name
     github_repo.disabled = true
     chat.save!
   end

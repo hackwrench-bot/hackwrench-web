@@ -8,12 +8,15 @@ h2 GitHub repo #{@id}
 
 p &nbsp;
 
-- if @github_repo && @github_repo.disabled && @github_repo.created_on_webhook
-  p
-    'Follow
-    = link_to 'the guide', client_chat_setup_webhook_howto_path(@chat.chat_id)
-    '
-    'to enable notifications from this repo.
+- if @github_repo && @github_repo.created_on_webhook
+  - if @github_repo.disabled
+    p
+      'Follow
+      = link_to 'the guide', client_chat_setup_webhook_howto_path(@chat.chat_id)
+      '
+      'to enable notifications from this repo.
+  - else
+    p This repo has notifications enabled. They can be managed in repo webhook settings.
 - else
   = form_tag(controller: 'client/github/repositories', action: 'update', id: @id)
     .checkbox
