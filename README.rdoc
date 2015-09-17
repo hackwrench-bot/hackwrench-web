@@ -17,7 +17,7 @@ The database is MongoDB, it should work without any extra tweaking.
 
 === Contributing
 
-# for the repo
-# make the changes to the master branch
-# write a test for your changes
-# send a pull request
+1. for the repo
+1. make the changes to the master branch
+1. write a test for your changes
+1. send a pull request
