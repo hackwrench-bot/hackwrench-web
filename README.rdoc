@@ -1,28 +1,23 @@
-== README
+== Hackwrench Bot
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Telegram bot notifying you about changes in your GitHub repositories. It is planned to add Trello integration.
 
-Things you may want to cover:
+This project contains web UI and bot itself.
 
-* Ruby version
+You can join the dev group by following the link https://telegram.me/joinchat/BmbIjwHOUGG0QenLdHDx-w.
 
-* System dependencies
+=== Bootstrap
 
-* Configuration
+To run the app, you need to add following files
 
-* Database creation
+* config/mongoid.yml
+* config/secrets.yml
 
-* Database initialization
+The database is MongoDB, it should work without any extra tweaking.
 
-* How to run the test suite
+=== Contributing
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+# for the repo
+# make the changes to the master branch
+# write a test for your changes
+# send a pull request
