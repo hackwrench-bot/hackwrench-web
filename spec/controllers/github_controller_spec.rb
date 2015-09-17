@@ -19,7 +19,7 @@ describe Webhooks::GithubController do
       request.headers['X-GitHub-Event'] = 'issues'
       body = load_file('github_controller_issue_event.json')
 
-      expected_msg = 'baxterthehacker/public-repo: opened issue by baxterthehacker https://github.com/baxterthehacker/public-repo/issues/2'
+      expected_msg = 'baxterthehacker/public-repo: issue opened by baxterthehacker https://github.com/baxterthehacker/public-repo/issues/2'
       allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id
@@ -63,7 +63,7 @@ describe Webhooks::GithubController do
       request.headers['X-GitHub-Event'] = 'pull_request'
       body = load_file('github_controller_pull_request_event.json')
 
-      expected_msg = 'baxterthehacker/public-repo: opened pull request by baxterthehacker https://github.com/baxterthehacker/public-repo/pull/1'
+      expected_msg = 'baxterthehacker/public-repo: pull request opened by baxterthehacker https://github.com/baxterthehacker/public-repo/pull/1'
       allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id
