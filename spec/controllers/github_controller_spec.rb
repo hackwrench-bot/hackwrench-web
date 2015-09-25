@@ -25,6 +25,9 @@ describe Webhooks::GithubController do
       post :callback, body, chat_id: chat_id
 
       expect(response.status).to eq(200)
+
+      chat = Chat.find_by chat_id: chat_id
+      expect(chat.chat_stat.github_events).to eq(1)
     end
 
     it 'handles push event' do
@@ -40,6 +43,9 @@ describe Webhooks::GithubController do
       post :callback, body, chat_id: chat_id
 
       expect(response.status).to eq(200)
+
+      chat = Chat.find_by chat_id: chat_id
+      expect(chat.chat_stat.github_events).to eq(1)
     end
 
     it 'handles issue_comment event' do
@@ -54,6 +60,9 @@ describe Webhooks::GithubController do
       post :callback, body, chat_id: chat_id
 
       expect(response.status).to eq(200)
+
+      chat = Chat.find_by chat_id: chat_id
+      expect(chat.chat_stat.github_events).to eq(1)
     end
 
     it 'handles pull_request event' do
@@ -69,6 +78,9 @@ describe Webhooks::GithubController do
       post :callback, body, chat_id: chat_id
 
       expect(response.status).to eq(200)
+
+      chat = Chat.find_by chat_id: chat_id
+      expect(chat.chat_stat.github_events).to eq(1)
     end
 
     it 'persists a new repo object on a ping event' do
@@ -88,10 +100,11 @@ describe Webhooks::GithubController do
       expect(github_repo).not_to be_nil
       expect(github_repo.name).to eq(body_json['repository']['full_name'])
       expect(github_repo.created_on_webhook).to eq(true)
+
+      expect(chat.chat_stat.github_events).to eq(1)
     end
 
     it 'handles ping event when repo object already exists' do
-
       request.headers['X-GitHub-Event'] = 'ping'
       body = load_file('github_controller_ping_event.json')
       body_json = JSON.parse body
@@ -109,6 +122,29 @@ describe Webhooks::GithubController do
       expect(github_repo).not_to be_nil
       expect(github_repo.name).to eq(body_json['repository']['full_name'])
       expect(github_repo.created_on_webhook).to eq(false)
+
+      expect(chat.chat_stat.github_events).to eq(1)
+    end
+
+    it 'github_events stat get incremented' do
+      request.headers['X-GitHub-Event'] = 'ping'
+      body = load_file('github_controller_ping_event.json')
+      body_json = JSON.parse body
+
+      chat_id = 'github_controller_as2po11f12'
+      github_repo = GithubRepo.new name: body_json['repository']['full_name']
+      Chat.create! chat_id: chat_id, github_repos: [github_repo]
+
+      # 1
+      post :callback, body, chat_id: chat_id
+      expect(response.status).to eq(200)
+
+      # 2
+      post :callback, body, chat_id: chat_id
+      expect(response.status).to eq(200)
+
+      chat = Chat.find_by chat_id: chat_id
+      expect(chat.chat_stat.github_events).to eq(2)
     end
 
     def load_file(file_name)

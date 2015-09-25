@@ -40,5 +40,7 @@ class ChatService
 
   def send_update(chat, msg)
     @telegram_api.sendMessage(chat_id: chat.telegram_chat_id, text: msg)
+
+    chat.increment_msgs_sent
   end
 end

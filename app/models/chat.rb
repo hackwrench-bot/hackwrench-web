@@ -6,6 +6,7 @@ class Chat
   before_create :generate_chat_id
 
   has_and_belongs_to_many :users
+  embeds_one :chat_stat
   embeds_many :github_repos
 
   field :chat_id, type: String
@@ -40,7 +41,20 @@ class Chat
     return repo && (not repo.disabled)
   end
 
+  def increment_github_events(events_count=1)
+    get_chat_stat.inc(github_events: events_count)
+  end
+
+  def increment_msgs_sent(messages_count=1)
+    get_chat_stat.inc(msgs_sent: messages_count)
+  end
+
   protected
+
+  def get_chat_stat
+    self.chat_stat = ChatStat.new if self.chat_stat.nil?
+    self.chat_stat
+  end
 
   def generate_chat_id
     if self.chat_id.nil?

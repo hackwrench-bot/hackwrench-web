@@ -6,7 +6,8 @@ class Webhooks::GithubController < ApplicationController
 
     event_type = request.headers['X-GitHub-Event']
     guid = request.headers['X-GitHub-Delivery']
-    body = JSON.parse(request.body.read())
+    body = request.body.read()
+    body = body.blank? ? {} : JSON.parse(body)
 
     Rails.logger.info "github callback telegram_chat_id=#{chat.telegram_chat_id} event_type=#{event_type} guid=#{guid} body=#{body}"
 
@@ -22,6 +23,8 @@ class Webhooks::GithubController < ApplicationController
       when 'pull_request'
         pull_request chat, body
     end
+
+    chat.increment_github_events
 
     render nothing: true
   end
