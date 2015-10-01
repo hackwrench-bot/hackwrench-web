@@ -1,6 +1,6 @@
 == Hackwrench Bot
 
-A Telegram bot notifying you about changes in your GitHub repositories. It is planned to add Trello integration.
+A Telegram bot notifying you about changes in your GitHub and GitLab repositories. It is planned to add Trello integration.
 
 This project contains web UI and bot itself.
 
