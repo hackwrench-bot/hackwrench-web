@@ -12,11 +12,15 @@ Rails.application.routes.draw do
 
 
     resources :chats, only: [:index] do
-      get '/setup_webhook_howto', to: 'chats#setup_webhook_howto'
 
       namespace :github do
+        get '/setup_webhook_howto', to: 'repositories#setup_webhook_howto'
         post '/repositories/:id', to: 'repositories#update'
 
+        resources :repositories, only: [:index, :show]
+      end
+
+      namespace :gitlab do
         resources :repositories, only: [:index, :show]
       end
     end
@@ -24,6 +28,7 @@ Rails.application.routes.draw do
 
   namespace :webhooks do
     post '/github/:chat_id', to: 'github#callback', as: 'github'
+    post '/gitlab/:chat_id', to: 'gitlab#callback', as: 'gitlab'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

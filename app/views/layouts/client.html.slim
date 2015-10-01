@@ -15,11 +15,18 @@ html
           .navbar-inner
             .container.clearfix
               ul.nav.navbar-nav
-                li.active
-                  = link_to 'Chats', client_chats_path
+                - if @chat.present?
+                  li(class="#{'active' if controller.class.name.include? 'Github'}")
+                    = link_to 'Github', client_chat_github_repositories_path(@chat.chat_id)
+
+                  li(class="#{'active' if controller.class.name.include? 'Gitlab'}")
+                    = link_to 'Gitlab', client_chat_gitlab_repositories_path(@chat.chat_id)
+
               ul.nav.navbar-nav.navbar-right
-                li
-                  .current-user Signed in as #{current_user.name}
+                - if @chat.present?
+                  li
+                    .current-user
+                      = @chat.title
                 li
                   = link_to('Logout', destroy_user_session_path, :method => :delete)
 

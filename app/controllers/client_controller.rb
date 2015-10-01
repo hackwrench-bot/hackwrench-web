@@ -23,4 +23,9 @@ class ClientController < ApplicationController
     @github_service = GithubService.new(current_user.github_token)
   end
 
+  protected
+
+  def load_chat
+    @chat = Chat.find_by(chat_id: params[:chat_id])
+  end
 end

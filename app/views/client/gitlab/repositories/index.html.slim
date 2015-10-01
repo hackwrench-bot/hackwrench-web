@@ -1,0 +1,25 @@
+p
+  = link_to 'Back to chats', client_chats_path
+
+h2 Gitlab repos
+
+- if @repos.length > 0
+  .list-group
+    - for repo in @repos
+      .list-group-item()
+        '#{repo.name}
+        - if @chat.gitlab_repo_enabled? repo.name
+          span.badge.green enabled
+        - else
+          span.badge disabled
+- else
+  p No repos found.
+
+p &nbsp;
+
+p.lead Don't see your repo? Setup the webhook first. The repo will appear here after the first delivered notification.
+
+p.lead Add the following webhook in the settings of your repo:
+
+pre
+  = @callback_url

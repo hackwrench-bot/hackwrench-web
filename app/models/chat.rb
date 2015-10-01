@@ -8,6 +8,7 @@ class Chat
   has_and_belongs_to_many :users
   embeds_one :chat_stat
   embeds_many :github_repos
+  embeds_many :gitlab_repos
 
   field :chat_id, type: String
   # user or group chat id
@@ -19,6 +20,8 @@ class Chat
 
   index({ chat_id: 1 }, { unique: true })
   index({ telegram_chat_id: 1 }, { unique: true })
+
+  # github
 
   def find_github_repo(name)
     github_repos.detect {|r| r.name == name}
@@ -41,8 +44,37 @@ class Chat
     return repo && (not repo.disabled)
   end
 
+  # gitlab
+
+  def find_gitlab_repo(name)
+    gitlab_repos.detect {|r| r.name == name}
+  end
+
+  def append_gitlab_repo(gitlab_repo)
+    repo = find_gitlab_repo gitlab_repo.name
+
+    if repo
+      raise "#{gitlab_repo.name} github repo already added"
+    end
+
+    gitlab_repos.push gitlab_repo
+    save!
+  end
+
+  def gitlab_repo_enabled?(gitlab_repo_name)
+    repo = find_gitlab_repo gitlab_repo_name
+
+    return repo && (not repo.disabled)
+  end
+
+  # stats
+
   def increment_github_events(events_count=1)
     get_chat_stat.inc(github_events: events_count)
+  end
+
+  def increment_gitlab_events(events_count=1)
+    get_chat_stat.inc(gitlab_events: events_count)
   end
 
   def increment_msgs_sent(messages_count=1)

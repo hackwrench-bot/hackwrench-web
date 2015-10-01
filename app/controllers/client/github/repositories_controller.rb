@@ -2,16 +2,16 @@ class Client::Github::RepositoriesController < ClientController
   before_action :load_chat
 
   def index
-    @user_repos = @github_service.user_repos
-    @org_repos = @github_service.org_repos
+      @user_repos = @github_service.user_repos
+      @org_repos = @github_service.org_repos
 
-    repo_names = @org_repos.map {|x| x.full_name }
-    repo_names += @user_repos.map {|x| x.full_name }
+      repo_names = @org_repos.map {|x| x.full_name }
+      repo_names += @user_repos.map {|x| x.full_name }
 
-    # add ones we know about but which wasn't returned by Github
-    @org_repos += @chat.github_repos.select {|gr|
-      not (repo_names.include? gr.name)
-    }
+      # add ones we know about but which wasn't returned by Github
+      @org_repos += @chat.github_repos.select {|gr|
+        not (repo_names.include? gr.name)
+      }
   end
 
   def show
@@ -39,9 +39,8 @@ class Client::Github::RepositoriesController < ClientController
     redirect_to action: 'show'
   end
 
-  protected
-
-  def load_chat
-    @chat = Chat.find_by(chat_id: params[:chat_id])
+  def setup_webhook_howto
+    @chat = Chat.find_by chat_id: params[:chat_id]
+    @callback_url = GithubService.new(current_user.github_token).callback_url @chat
   end
 end

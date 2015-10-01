@@ -4,5 +4,6 @@ class ChatStat
   embedded_in :chat
 
   field :github_events, type: Integer
+  field :gitlab_events, type: Integer
   field :msgs_sent, type: Integer
 end
