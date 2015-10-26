@@ -21,3 +21,11 @@
 
 en:
   hello: "Hello world"
+
+  hackwrench:
+    home_page:
+      title: Hackwrench Bot - GitHub and GitLab notifications in Telegram
+
+      product_name: Hackwrench Bot
+      heading: A Telegram bot notifying you about changes in your GitHub and GitLab repos
+
