@@ -1,19 +1,25 @@
 h2 Select chat
 
-- if @chats && @chats.length > 0
-  .list-group
-    - for chat in @chats
-      a.list-group-item(href=client_chat_github_repositories_path(chat.chat_id))
-        '#{chat.title || '[no title]'}
+.list-group
+  - for chat in @chats
+    a.list-group-item(href=client_chat_github_repositories_path(chat.chat_id))
+      '#{chat.title || '[no title]'}
 
-        - repos_length = chat.github_repos.present? ? chat.github_repos.length : 0
+      - github_repos_length = chat.github_repos.present? ? chat.github_repos.length : 0
+      - gitlab_repos_length = chat.gitlab_repos.present? ? chat.gitlab_repos.length : 0
 
-        - if repos_length > 0
-          span.badge.green Enabled repos: #{repos_length}
-        - else
-          span.badge No enabled repos
+      span(class="badge #{'green' if gitlab_repos_length > 0}") GitLab repos: #{gitlab_repos_length}
+      span(class="badge #{'green' if github_repos_length > 0}") GitHub repos: #{github_repos_length}
 
-        - if chat.private
-          span.badge.info private
-- else
-  = render '/add_bot_text'
+      - if chat.private
+        span.badge.info private
+
+p &nbsp;
+
+p.lead
+  'To add a new chat just add
+  strong
+    a(href="https://telegram.me/#{Rails.configuration.bot_name}" target="_blank" class="telegram-login")
+      |#{Rails.configuration.bot_name}
+      = image_tag('telegram_logo_73.png')
+  |to your chat and send <i>/configure</i>
