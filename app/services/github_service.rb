@@ -52,8 +52,7 @@ class GithubService
         github_repo.disabled = false
         chat.save!
       else
-        github_repo = GithubRepo.new name: repo_full_name
-        chat.append_github_repo github_repo
+        chat.create_github_repo repo_full_name
       end
 
 

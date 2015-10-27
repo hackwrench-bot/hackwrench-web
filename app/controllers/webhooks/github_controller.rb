@@ -70,11 +70,6 @@ class Webhooks::GithubController < ApplicationController
       return
     end
 
-    github_repo = chat.find_github_repo repo['full_name']
-
-    if github_repo.nil?
-      github_repo = GithubRepo.new(name: repo['full_name'], created_on_webhook: true)
-      chat.append_github_repo github_repo
-    end
+    chat.create_github_repo(repo['full_name'], created_on_webhook: true)
   end
 end

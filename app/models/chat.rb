@@ -21,21 +21,28 @@ class Chat
   index({ chat_id: 1 }, { unique: true })
   index({ telegram_chat_id: 1 }, { unique: true })
 
+  def grant_access(user)
+    users.push(user)
+    save!
+  end
+
   # github
+
+  def create_github_repo(repo_name, created_on_webhook: false)
+    github_repo = find_github_repo repo_name
+
+    if github_repo.nil?
+      github_repo = GithubRepo.new(name: repo_name,
+                                   created_on_webhook: created_on_webhook)
+      github_repos.push github_repo
+      save!
+    end
+
+    github_repo
+  end
 
   def find_github_repo(name)
     github_repos.detect {|r| r.name == name}
-  end
-
-  def append_github_repo(github_repo)
-    repo = find_github_repo github_repo.name
-
-    if repo
-      raise "#{github_repo.name} github repo already added"
-    end
-
-    github_repos.push github_repo
-    save!
   end
 
   def github_repo_enabled?(github_repo_name)
@@ -46,19 +53,21 @@ class Chat
 
   # gitlab
 
-  def find_gitlab_repo(name)
-    gitlab_repos.detect {|r| r.name == name}
-  end
+  def create_gitlab_repo(name, url)
+    gitlab_repo = find_gitlab_repo name
 
-  def append_gitlab_repo(gitlab_repo)
-    repo = find_gitlab_repo gitlab_repo.name
+    if gitlab_repo.nil?
+      gitlab_repo = GitlabRepo.new(name: name, url: url)
 
-    if repo
-      raise "#{gitlab_repo.name} github repo already added"
+      gitlab_repos.push gitlab_repo
+      save!
     end
 
-    gitlab_repos.push gitlab_repo
-    save!
+    gitlab_repo
+  end
+
+  def find_gitlab_repo(name)
+    gitlab_repos.detect {|r| r.name == name}
   end
 
   def gitlab_repo_enabled?(gitlab_repo_name)

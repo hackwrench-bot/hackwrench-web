@@ -28,7 +28,7 @@ describe ChatService do
     it 'returns correct configure URL' do
       chat = Chat.new(chat_id: 'abc', telegram_chat_id: 2, title: 'title')
 
-      configure_url = ChatService.new.configure_url chat
+      configure_url = ChatService.configure_url chat
 
       expect(configure_url).to eq("http://#{Rails.configuration.web_app_hostname}/client/chats/configure/abc")
     end

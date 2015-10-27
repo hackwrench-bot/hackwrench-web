@@ -33,7 +33,7 @@ class ChatService
     chat
   end
 
-  def configure_url(chat)
+  def self.configure_url(chat)
     Rails.application.routes.url_helpers.client_chats_configure_url(chat_id: chat.chat_id,
                                                                     host: Rails.configuration.web_app_hostname)
   end

@@ -29,3 +29,9 @@ en:
       product_name: Hackwrench Bot
       heading: A Telegram bot notifying you about changes in your GitHub and GitLab repos
 
+    chats_page:
+      no_chats: No chats yet.
+      github_repos_count_tag: "GitHub repos: %{count}"
+      gitlab_repos_count_tag: "GitLab repos: %{count}"
+      private_tag: private
+

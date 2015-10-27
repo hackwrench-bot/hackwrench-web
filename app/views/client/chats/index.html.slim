@@ -8,11 +8,18 @@ h2 Select chat
       - github_repos_length = chat.github_repos.present? ? chat.github_repos.length : 0
       - gitlab_repos_length = chat.gitlab_repos.present? ? chat.gitlab_repos.length : 0
 
-      span(class="badge #{'green' if gitlab_repos_length > 0}") GitLab repos: #{gitlab_repos_length}
-      span(class="badge #{'green' if github_repos_length > 0}") GitHub repos: #{github_repos_length}
+      span(class="badge #{'green' if gitlab_repos_length > 0}")
+        = t('hackwrench.chats_page.gitlab_repos_count_tag', count: gitlab_repos_length)
+      span(class="badge #{'green' if github_repos_length > 0}")
+        = t('hackwrench.chats_page.github_repos_count_tag', count: github_repos_length)
 
       - if chat.private
-        span.badge.info private
+        span.badge.info
+          = t('hackwrench.chats_page.private_tag')
+
+  - if @chats.length == 0
+    p
+      = t('hackwrench.chats_page.no_chats')
 
 p &nbsp;
 

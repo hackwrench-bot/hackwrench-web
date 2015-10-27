@@ -3,8 +3,7 @@ class Client::ChatsController < ClientController
     chat_id = params[:chat_id]
     chat = Chat.find_by(chat_id: chat_id)
 
-    chat.users.push(current_user)
-    chat.save
+    chat.grant_access(current_user)
 
     redirect_to(action: 'index')
   end

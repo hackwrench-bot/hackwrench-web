@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe 'home page' do
+  before :each do
+    cleanup_db
+  end
+
   it 'renders landing page' do
     visit '/'
 

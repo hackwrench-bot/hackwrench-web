@@ -45,6 +45,10 @@ end
 Capybara.default_driver = :selenium
 
 
+include Warden::Test::Helpers
+Warden.test_mode!
+
+
 def cleanup_db
   Chat.delete_all
   User.delete_all

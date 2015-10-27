@@ -53,7 +53,7 @@ class TelegramBot
 
   def send_configure_text(msg)
     chat = @chat_service.create_chat msg
-    configure_url = @chat_service.configure_url chat
+    configure_url = ChatService.configure_url chat
 
     @chat_service.send_update(chat, "Hello, please visit #{configure_url} to configure GitHub notifications for this chat.")
   end

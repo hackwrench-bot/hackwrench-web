@@ -63,11 +63,6 @@ class Webhooks::GitlabController < ApplicationController
       return
     end
 
-    gitlab_repo = chat.find_gitlab_repo name
-
-    if gitlab_repo.nil?
-      gitlab_repo = GitlabRepo.new(name: name, url: url)
-      chat.append_gitlab_repo gitlab_repo
-    end
+    chat.create_gitlab_repo name, url
   end
 end
