@@ -53,3 +53,7 @@ def cleanup_db
   Chat.delete_all
   User.delete_all
 end
+
+def read_local_file(file_name)
+  File.open(File.join(File.dirname(__FILE__), file_name)).read
+end

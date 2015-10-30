@@ -14,6 +14,7 @@ window.ClientApp.controller 'TrelloController', ($scope, $attrs) ->
     Trello.authorize(
       type: "redirect",
       name: "Hackwrench",
+      persist: true,
       scope: {
         read: true,
         write: false

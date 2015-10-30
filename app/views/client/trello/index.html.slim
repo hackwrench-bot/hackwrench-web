@@ -4,6 +4,8 @@ script src="https://trello.com/1/client.js?key=#{Rails.application.secrets.trell
 
 h2 Trello boards
 
+p Manage notifications about changes on your boards
+
 .list-group.trello-boards(ng-controller='TrelloController' callback-url="#{webhooks_trello_url(@chat.chat_id)}")
   .list-group-item(ng-repeat='board in boards')
     '{{ board.name }}
