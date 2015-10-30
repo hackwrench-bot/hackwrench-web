@@ -26,7 +26,6 @@ $footer-height: 60px
         width: $logo-size
         height: $logo-size
         border-radius: 50%
-      //background-ima
 
 
     .telegram-login
@@ -58,10 +57,11 @@ $footer-height: 60px
             line-height: $line-height
             padding: $padding-v $padding-h
 
+          $nav-link-color: #0088cc
           a
             line-height: $line-height
             padding: $padding-v $padding-h
-            color: #0088cc
+            color: $nav-link-color
             -webkit-transition: padding-bottom .2s ease-in-out, box-shadow .2s ease-in-out
             -moz-transition: padding-bottom .2s ease-in-out, box-shadow .2s ease-in-out
             -ms-transition: padding-bottom .2s ease-in-out, box-shadow .2s ease-in-out
@@ -72,7 +72,12 @@ $footer-height: 60px
               -webkit-box-shadow: 0px 3px 0px 0px #179cde
               padding-bottom: 13.5px
 
-          a.login-with-github
+          li.chats
+            a
+              padding-left: 25px
+              padding-right: 25px
+
+          li.login-with-github
             img
               margin-top: -3px
               margin-left: 8px

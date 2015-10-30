@@ -18,6 +18,10 @@ html ng-app='ClientApp'
           .navbar-inner
             .container.clearfix
               ul.nav.navbar-nav
+                li.chats(class="#{'active' if controller.class.name.include? 'Chats'}")
+                  a(href="#{client_chats_path}")
+                    'select chat
+
                 - if @chat.present?
                   li(class="#{'active' if controller.class.name.include? 'Github'}")
                     = link_to 'Github', client_chat_github_repositories_path(@chat.chat_id)
