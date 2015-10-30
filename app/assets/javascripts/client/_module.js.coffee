@@ -1,0 +1,1 @@
+window.ClientApp = angular.module 'ClientApp', ['ng-rails-csrf', 'frapontillo.bootstrap-switch']

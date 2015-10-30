@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   namespace :client do
     get '/chats/configure/:chat_id', to: 'chats#configure', as: 'chats_configure'
 
-
     resources :chats, only: [:index] do
+      get '/trello', to: 'trello#index'
 
       namespace :github do
         get '/setup_webhook_howto', to: 'repositories#setup_webhook_howto'
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   namespace :webhooks do
     post '/github/:chat_id', to: 'github#callback', as: 'github'
     post '/gitlab/:chat_id', to: 'gitlab#callback', as: 'gitlab'
+    post '/trello/:chat_id', to: 'trello#callback', as: 'trello'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

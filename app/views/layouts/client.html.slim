@@ -1,5 +1,5 @@
 doctype 5
-html
+html ng-app='ClientApp'
   head
     meta charset="UTF-8"
     meta http-equiv="Content-Type" content="text/html; charset=utf-8"
@@ -9,8 +9,7 @@ html
     link rel="shortcut icon" href="/favicon.ico"
 
     = stylesheet_link_tag 'application', media: 'all'
-    = stylesheet_link_tag 'client', media: 'all'
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag 'client'
     = csrf_meta_tags
   body
     #wrap-te
@@ -25,6 +24,9 @@ html
 
                   li(class="#{'active' if controller.class.name.include? 'Gitlab'}")
                     = link_to 'Gitlab', client_chat_gitlab_repositories_path(@chat.chat_id)
+
+                  li(class="#{'active' if controller.class.name.include? 'Trello'}")
+                    = link_to 'Trello', client_chat_trello_path(@chat.chat_id)
 
               ul.nav.navbar-nav.navbar-right
                 - if @chat.present?
