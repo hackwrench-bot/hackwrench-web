@@ -1,6 +1,11 @@
 class Webhooks::TrelloController < ApplicationController
   protect_from_forgery with: :null_session
 
+  # Trello sends HEAD request on webhook creation for checking the URL
+  def callback_get
+    render nothing: true
+  end
+
   def callback
     chat = Chat.find_by(chat_id: params[:chat_id])
 

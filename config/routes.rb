@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   namespace :webhooks do
     post '/github/:chat_id', to: 'github#callback', as: 'github'
     post '/gitlab/:chat_id', to: 'gitlab#callback', as: 'gitlab'
+
+    get '/trello/:chat_id', to: 'trello#callback_get', as: 'trello_get'
     post '/trello/:chat_id', to: 'trello#callback', as: 'trello'
   end
 
