@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
     resources :chats, only: [:index] do
       get '/trello', to: 'trello#index'
+      post '/trello/webhook_enabled', to: 'trello#webhook_enabled'
+      post '/trello/webhook_disabled', to: 'trello#webhook_disabled'
 
       namespace :github do
         get '/setup_webhook_howto', to: 'repositories#setup_webhook_howto'
