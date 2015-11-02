@@ -38,8 +38,8 @@ class ChatService
                                                                     host: Rails.configuration.web_app_hostname)
   end
 
-  def send_update(chat, msg, web_preview = true)
-    @telegram_api.sendMessage(chat_id: chat.telegram_chat_id, text: msg, disable_web_page_preview: web_preview)
+  def send_update(chat, msg, disable_web_preview = false)
+    @telegram_api.sendMessage(chat_id: chat.telegram_chat_id, text: msg, disable_web_page_preview: disable_web_preview)
 
     chat.increment_msgs_sent
   end
