@@ -10,32 +10,64 @@ class Webhooks::TrelloController < ApplicationController
     chat = Chat.find_by(chat_id: params[:chat_id])
 
     body = JSON.parse(request.body.read())
-    event_type = body['type']
+    action = body['action']
+    event_type = action['type']
 
-    case event_type
-      when 'createCard'
-        card_created chat, body
-      else
-        Rails.logger.info 'Undefined trello webhook type'
+    begin
+      case event_type
+        when 'createCard'
+          card_created chat, body
+        when 'updateCard'
+          if action['data'].has_key?('listBefore') && action['data'].has_key?('listAfter')
+            card_moved_to_list chat, body
+          else
+            raise UndefinedEvent
+          end
+        when 'commentCard'
+          card_comment chat, body
+        else
+          raise UndefinedEvent
+      end
+    rescue UndefinedEvent
+      Rails.logger.info "Undefined trello webhook type #{event_type}, body: #{body.to_s}"
     end
 
     render nothing: true
   end
 
+  private
+
   def card_created(chat, body)
-    # TODO: add link
-    msg = "#{body['memberCreator']['username']} created card '#{card_name body}' on '#{board_name body}'"
+    msg = "#{body['action']['memberCreator']['username']} created card '#{card_name body}' on '#{board_name body}'"
 
     ChatService.new.send_update chat, msg
   end
 
-  private
+  def card_moved_to_list(chat, body)
+    action = body['action']
+    msg = "#{username body} moved '#{card_name body}' to '#{action['data']['listAfter']['name']}' on '#{board_name body}'"
+
+    ChatService.new.send_update chat, msg
+  end
+
+  def card_comment(chat, body)
+    msg = "#{username body} commented on '#{card_name body}' ('#{board_name body}'): '#{body['action']['data']['text']}'"
+
+    ChatService.new.send_update chat, msg
+  end
 
   def card_name(body)
-    body['data']['card']['name']
+    body['action']['data']['card']['name']
   end
 
   def board_name(body)
-    body['data']['board']['name']
+    body['action']['data']['board']['name']
+  end
+
+  def username(body)
+    body['action']['memberCreator']['username']
+  end
+
+  class UndefinedEvent < Exception
   end
 end
