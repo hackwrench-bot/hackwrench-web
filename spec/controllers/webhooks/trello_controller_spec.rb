@@ -7,7 +7,7 @@ describe Webhooks::TrelloController do
 
   describe 'webhook' do
     it 'handles card creation' do
-      body = read_local_file 'controllers/trello_controller_createCard.json'
+      body = read_local_file 'controllers/webhooks/trello_controller_createCard.json'
 
       chat_id = 'trello_controller_aj22mr'
       Chat.create! chat_id: chat_id
@@ -20,7 +20,7 @@ describe Webhooks::TrelloController do
     end
 
     it 'handles card move to list' do
-      body = read_local_file 'controllers/trello_controller_card_moved_to_list.json'
+      body = read_local_file 'controllers/webhooks/trello_controller_card_moved_to_list.json'
 
       chat_id = 'trello_controller_hoh23ab7'
       Chat.create! chat_id: chat_id
@@ -33,7 +33,7 @@ describe Webhooks::TrelloController do
     end
 
     it 'handles comment on card' do
-      body = read_local_file 'controllers/trello_controller_card_comment.json'
+      body = read_local_file 'controllers/webhooks/trello_controller_card_comment.json'
 
       chat_id = 'trello_controller_pqka2a39'
       Chat.create! chat_id: chat_id

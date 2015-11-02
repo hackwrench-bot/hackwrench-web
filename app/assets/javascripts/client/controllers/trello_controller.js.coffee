@@ -1,5 +1,6 @@
-window.ClientApp.controller 'TrelloController', ($scope, $attrs) ->
+window.ClientApp.controller 'TrelloController', ($scope, $http, $attrs) ->
   $scope.boards = []
+  $scope.chatId = $attrs.chatId
   $scope.callbackUrl = $attrs.callbackUrl
 
   $scope.init = () ->
@@ -57,6 +58,7 @@ window.ClientApp.controller 'TrelloController', ($scope, $attrs) ->
         (webhook) ->
           console.log 'created webhook'
           board.webhookId = webhook.id
+          enabledNotifications(board)
         , () ->
           console.log 'failed to created webhook')
     else
@@ -64,7 +66,14 @@ window.ClientApp.controller 'TrelloController', ($scope, $attrs) ->
         (webhook) ->
           console.log 'deleted webhook'
           delete board.webhookId
+          disabledNotifications(board)
         , () ->
           console.log 'failed to delete webhook')
+
+  enabledNotifications = (board) ->
+    $http.post('/client/chats/' + $scope.chatId + '/trello/webhook_enabled', board_name: board.name)
+
+  disabledNotifications = (board) ->
+    $http.post('/client/chats/' + $scope.chatId + '/trello/webhook_disabled', board_name: board.name)
 
   $scope.init()

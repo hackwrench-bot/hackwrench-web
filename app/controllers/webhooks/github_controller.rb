@@ -70,6 +70,13 @@ class Webhooks::GithubController < ApplicationController
       return
     end
 
-    chat.create_github_repo(repo['full_name'], created_on_webhook: true)
+    repo_name = repo['full_name']
+
+    if chat.find_github_repo(repo_name).nil?
+      chat.create_github_repo(repo_name, created_on_webhook: true)
+      # GitHub sends ping event to webhook on creation, let's notify the chat about newly
+      # added repository
+      GithubService.webhook_enabled(chat, repo_name)
+    end
   end
 end

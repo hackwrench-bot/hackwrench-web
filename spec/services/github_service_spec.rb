@@ -12,6 +12,7 @@ describe GithubService do
       repo = "henadzit/#{chat.chat_id}"
 
       allow_any_instance_of(Octokit::Client).to receive(:create_hook)
+      allow_any_instance_of(ChatService).to receive(:send_update)
 
       expect(GithubService.new('123').create_hook(repo, chat)).to eq(true)
 
@@ -38,6 +39,7 @@ describe GithubService do
       })]
       allow_any_instance_of(Octokit::Client).to receive(:hooks).and_return(hook_response)
       allow_any_instance_of(Octokit::Client).to receive(:remove_hook)
+      allow_any_instance_of(ChatService).to receive(:send_update)
 
       expect(GithubService.new('123').delete_hook(github_repo.name, chat)).to eq(true)
 

@@ -35,3 +35,11 @@ en:
       gitlab_repos_count_tag: "GitLab repos: %{count}"
       private_tag: private
 
+    messaging:
+      trello:
+        notifications_enabled: "Enabled notifications for board '%{board_name}'."
+        notifications_disabled: "Disabled notifications for board '%{board_name}'."
+
+      github:
+        notifications_enabled: "Enabled notifications for repo '%{repo_name}'"
+        notifications_disabled: "Disabled notifications for repo '%{repo_name}'"

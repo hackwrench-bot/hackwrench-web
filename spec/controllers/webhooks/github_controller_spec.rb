@@ -14,7 +14,8 @@ describe Webhooks::GithubController do
 
     it 'handles issues event' do
       chat_id = 'github_controller_i2d'
-      Chat.create! chat_id: chat_id
+      chat = Chat.create! chat_id: chat_id
+      chat.create_github_repo 'baxterthehacker/public-repo'
 
       request.headers['X-GitHub-Event'] = 'issues'
       body = load_file('github_controller_issue_event.json')
@@ -32,7 +33,8 @@ describe Webhooks::GithubController do
 
     it 'handles push event' do
       chat_id = 'github_controller_a81'
-      Chat.create! chat_id: chat_id
+      chat = Chat.create! chat_id: chat_id
+      chat.create_github_repo 'baxterthehacker/public-repo'
 
       request.headers['X-GitHub-Event'] = 'push'
       body = load_file('github_controller_push_event.json')
@@ -67,7 +69,8 @@ describe Webhooks::GithubController do
 
     it 'handles pull_request event' do
       chat_id = 'github_controller_lo1a'
-      Chat.create! chat_id: chat_id
+      chat = Chat.create! chat_id: chat_id
+      chat.create_github_repo 'baxterthehacker/public-repo'
 
       request.headers['X-GitHub-Event'] = 'pull_request'
       body = load_file('github_controller_pull_request_event.json')
@@ -89,6 +92,10 @@ describe Webhooks::GithubController do
 
       request.headers['X-GitHub-Event'] = 'ping'
       body = load_file('github_controller_ping_event.json')
+
+      expect_any_instance_of(ChatService).to receive(:send_update)
+        .with(an_instance_of(Chat),
+              I18n.t('hackwrench.messaging.github.notifications_enabled', repo_name: 'henadzit/webhealth'))
 
       post :callback, body, chat_id: chat_id
       expect(response.status).to eq(200)

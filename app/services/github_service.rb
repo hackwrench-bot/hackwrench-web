@@ -55,6 +55,7 @@ class GithubService
         chat.create_github_repo repo_full_name
       end
 
+      self.class.webhook_enabled(chat, repo_full_name)
 
       true
     rescue Octokit::NotFound
@@ -88,5 +89,16 @@ class GithubService
     # TODO this should rollback hook deletion if fails
     github_repo.disabled = true
     chat.save!
+
+    self.class.webhook_disabled chat, repo_full_name
+    true
+  end
+
+  def self.webhook_enabled(chat, repo_name)
+    ChatService.new.send_update chat, I18n.t('hackwrench.messaging.github.notifications_enabled', repo_name: repo_name)
+  end
+
+  def self.webhook_disabled(chat, repo_name)
+    ChatService.new.send_update chat, I18n.t('hackwrench.messaging.github.notifications_disabled', repo_name: repo_name)
   end
 end

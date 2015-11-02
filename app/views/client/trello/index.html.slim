@@ -4,7 +4,7 @@ h2 Trello boards
 
 p Manage notifications about changes on your boards
 
-.list-group.trello-boards(ng-controller='TrelloController' callback-url="#{webhooks_trello_url(@chat.chat_id)}")
+.list-group.trello-boards(ng-controller='TrelloController' chat-id="#{@chat.chat_id}" callback-url="#{webhooks_trello_url(@chat.chat_id)}")
   .list-group-item(ng-repeat='board in boards')
     '{{ board.name }}
     input(ng-model="board.webhookEnabled" type="checkbox" bs-switch switch-size="mini" ng-change="toogleWebhook(board)")
