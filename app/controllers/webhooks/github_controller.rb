@@ -39,6 +39,9 @@ class Webhooks::GithubController < ApplicationController
     end
 
     msg = msg % [body['pusher']['name'], body['commits'].length, body['compare']]
+    body['commits'].each do |commit|
+      msg += "\n%s - %s" % [commit['id'][0..5], commit['message']]
+    end
     msg = repo_msg(body, msg)
 
     ChatService.new.send_update chat, msg
