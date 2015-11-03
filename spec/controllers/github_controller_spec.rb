@@ -38,7 +38,7 @@ describe Webhooks::GithubController do
       body = load_file('github_controller_push_event.json')
 
       expected_msg = "baxterthehacker/public-repo: baxterthehacker pushed 1 commit https://github.com/baxterthehacker/public-repo/compare/9049f1265b7d...0d1a26e67d8f\n0d1a26 - Update README.md"
-      allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg, true)
+      allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id
 

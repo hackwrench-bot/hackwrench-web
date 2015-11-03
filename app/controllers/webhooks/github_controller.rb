@@ -44,7 +44,7 @@ class Webhooks::GithubController < ApplicationController
     end
     msg = repo_msg(body, msg)
 
-    ChatService.new.send_update(chat, msg, true)
+    ChatService.new.send_update(chat, msg)
   end
 
   def issues_event(chat, body)
