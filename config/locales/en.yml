@@ -24,10 +24,13 @@ en:
 
   hackwrench:
     home_page:
-      title: Hackwrench Bot - GitHub and GitLab notifications in Telegram
+      title: Hackwrench Bot - GitHub, GitLab and Trello notifications in Telegram
 
       product_name: Hackwrench Bot
-      heading: A Telegram bot notifying you about changes in your GitHub and GitLab repos
+      heading: Github, Gitlab and Trello in Telegram chat
+
+      meta:
+        description: Telegram bot for integrating Github, Trello and Gitlab.
 
     chats_page:
       no_chats: No chats yet.

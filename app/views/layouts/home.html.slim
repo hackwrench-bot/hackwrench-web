@@ -8,10 +8,16 @@ html
       = t('hackwrench.home_page.title')
     link rel="shortcut icon" href="/favicon.ico"
 
-    meta name="description" content="Telegram bot for integrating Github, Trello and Gitlab into Telegram chat."
+    meta name="description" content="#{t('hackwrench.home_page.meta.description')}"
 
     link rel="canonical" href="http://hackwrench.us"
     link rel="shortlink" href="http://hackwrench.us"
+
+    meta property="og:site_name" content="hackwrench.us"
+    meta property="og:type" content="website"
+    meta property="og:url" content="#{request.original_url}"
+    meta property="og:title" content="#{t('hackwrench.home_page.title')}"
+    meta property="og:description" content="#{t('hackwrench.home_page.meta.description')}"
 
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'application'

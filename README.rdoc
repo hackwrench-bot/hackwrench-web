@@ -1,8 +1,12 @@
 == Hackwrench Bot
 
-A Telegram bot notifying you about changes in your GitHub and GitLab repositories. It is planned to add Trello integration.
+A Telegram bot adding Github, Gitlab and Trello into your chat. It sends notifications on changes in repos
+like pushes, pull requrests, new issues. It also notifies about changes on Trello boards like new cards, comments or
+card moves.
 
-This project contains web UI and bot itself.
+It is deployed at http://hackwrench.us
+
+This repository contains web UI and bot itself.
 
 You can join the dev group by following the link https://telegram.me/joinchat/BmbIjwHOUGG0QenLdHDx-w.
 
@@ -13,11 +17,11 @@ To run the app, you need to add following files
 * config/mongoid.yml
 * config/secrets.yml
 
-The database is MongoDB, it should work without any extra tweaking.
+The database is MongoDB, it does not require any extra tweaking.
 
 === Contributing
 
-1. for the repo
+1. fork the repo
 1. make the changes to the master branch
 1. write a test for your changes
 1. send a pull request
