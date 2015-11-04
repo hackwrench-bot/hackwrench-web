@@ -12,7 +12,7 @@ describe Webhooks::TrelloController do
       chat_id = 'trello_controller_aj22mr'
       Chat.create! chat_id: chat_id
 
-      expected_msg = 'fiatjaf created card \'hello.\' on \'This is a Site\''
+      expected_msg = 'fiatjaf created card \'hello.\' on \'This is a Site\' https://trello.com/c/0N7Yrpro'
       expect_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id
@@ -25,7 +25,7 @@ describe Webhooks::TrelloController do
       chat_id = 'trello_controller_hoh23ab7'
       Chat.create! chat_id: chat_id
 
-      expected_msg = 'hendzitsaryk moved \'Testing card\' to \'In Progress\' on \'Hackwrench Development\''
+      expected_msg = 'hendzitsaryk moved \'Testing card\' to \'In Progress\' on \'Hackwrench Development\' https://trello.com/c/3R8o1PJF'
       expect_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id
@@ -38,7 +38,7 @@ describe Webhooks::TrelloController do
       chat_id = 'trello_controller_pqka2a39'
       Chat.create! chat_id: chat_id
 
-      expected_msg = 'hendzitsaryk commented on \'Testing card 2\' (\'Hackwrench Development\'): \'new comment\''
+      expected_msg = 'hendzitsaryk commented on \'Testing card 2\' (\'Hackwrench Development\'): \'new comment\' https://trello.com/c/bEUse9KD'
       expect_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id

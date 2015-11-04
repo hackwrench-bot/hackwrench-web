@@ -38,26 +38,30 @@ class Webhooks::TrelloController < ApplicationController
   private
 
   def card_created(chat, body)
-    msg = "#{body['action']['memberCreator']['username']} created card '#{card_name body}' on '#{board_name body}'"
+    msg = "#{body['action']['memberCreator']['username']} created card '#{card_name body}' on '#{board_name body}' #{card_link body}"
 
     ChatService.new.send_update chat, msg
   end
 
   def card_moved_to_list(chat, body)
     action = body['action']
-    msg = "#{username body} moved '#{card_name body}' to '#{action['data']['listAfter']['name']}' on '#{board_name body}'"
+    msg = "#{username body} moved '#{card_name body}' to '#{action['data']['listAfter']['name']}' on '#{board_name body}' #{card_link body}"
 
     ChatService.new.send_update chat, msg
   end
 
   def card_comment(chat, body)
-    msg = "#{username body} commented on '#{card_name body}' ('#{board_name body}'): '#{body['action']['data']['text']}'"
+    msg = "#{username body} commented on '#{card_name body}' ('#{board_name body}'): '#{body['action']['data']['text']}' #{card_link body}"
 
     ChatService.new.send_update chat, msg
   end
 
   def card_name(body)
     body['action']['data']['card']['name']
+  end
+
+  def card_link(body)
+    TrelloService.card_url body['action']['data']['card']['shortLink']
   end
 
   def board_name(body)
