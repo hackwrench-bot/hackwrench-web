@@ -42,7 +42,8 @@ class Webhooks::GithubController < ApplicationController
 
     msg = msg % [body['pusher']['name'], body['commits'].length, branch, body['compare']]
     body['commits'].each do |commit|
-      msg += "\n%s - %s" % [commit['id'][0..5], commit['message']]
+      title = commit['message'].split("\n",2).first
+      msg += "\n%s - %s" % [commit['id'][0..5], title]
     end
     msg = repo_msg(body, msg)
 

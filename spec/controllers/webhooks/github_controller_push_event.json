@@ -11,7 +11,7 @@
     {
       "id": "0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
       "distinct": true,
-      "message": "Update README.md",
+      "message": "Update README.md\n\nSome additional info\non multiple lines.",
       "timestamp": "2015-05-05T19:40:15-04:00",
       "url": "https://github.com/baxterthehacker/public-repo/commit/0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
       "author": {
