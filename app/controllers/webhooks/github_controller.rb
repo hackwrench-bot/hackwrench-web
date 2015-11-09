@@ -33,14 +33,17 @@ class Webhooks::GithubController < ApplicationController
 
   def push_event(chat, body)
     if body['commits'].length > 1
-      msg = '%s pushed %d commits %s'
+      msg = '%s pushed %d commits to %s %s'
     else
-      msg = '%s pushed %d commit %s'
+      msg = '%s pushed %d commit to %s %s'
     end
 
-    msg = msg % [body['pusher']['name'], body['commits'].length, body['compare']]
+    branch = body['ref'].split('/').last
+
+    msg = msg % [body['pusher']['name'], body['commits'].length, branch, body['compare']]
     body['commits'].each do |commit|
-      msg += "\n%s - %s" % [commit['id'][0..5], commit['message']]
+      title = commit['message'].split("\n",2).first
+      msg += "\n%s - %s" % [commit['id'][0..5], title]
     end
     msg = repo_msg(body, msg)
 
