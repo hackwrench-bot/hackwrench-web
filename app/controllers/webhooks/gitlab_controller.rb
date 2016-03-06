@@ -19,6 +19,8 @@ class Webhooks::GitlabController < ApplicationController
         merge_request chat, body
     end
 
+    chat.increment_gitlab_events
+
     render nothing: true
   end
 

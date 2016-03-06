@@ -42,7 +42,7 @@ describe Webhooks::GitlabController do
       body = load_file('gitlab_controller_merge_request.json')
 
       expected_msg = 'awesome_project: merge request opened by Administrator http://example.com/diaspora/merge_requests/1'
-      allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
+        allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id
 
