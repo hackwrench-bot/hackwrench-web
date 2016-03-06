@@ -27,7 +27,7 @@ describe Webhooks::GitlabController do
 
       body = load_file('gitlab_controller_issue.json')
 
-      expected_msg = 'Gitlab Test: issue opened by Administrator http://example.com/diaspora/issues/23'
+      expected_msg = 'Gitlab Test: issue "New API: create/update/delete file" opened by Administrator http://example.com/diaspora/issues/23'
       allow_any_instance_of(ChatService).to receive(:send_update).with(an_instance_of(Chat), expected_msg)
 
       post :callback, body, chat_id: chat_id

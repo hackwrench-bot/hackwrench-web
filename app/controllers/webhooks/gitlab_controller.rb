@@ -43,7 +43,7 @@ class Webhooks::GitlabController < ApplicationController
   def issue_event(chat, body)
     create_repo_if_needed chat, body['repository']['name'], body['repository']['url']
 
-    msg = repo_msg(body, "issue #{body['object_attributes']['action']}ed by #{body['user']['name']} #{body['object_attributes']['url']}")
+    msg = repo_msg(body, "issue \"#{body['object_attributes']['title']}\" #{body['object_attributes']['action']}ed by #{body['user']['name']} #{body['object_attributes']['url']}")
     ChatService.new.send_update chat, msg
   end
 
