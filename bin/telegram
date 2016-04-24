@@ -20,6 +20,9 @@ class TelegramBot
   def run
     token = Rails.application.secrets[:telegram_bot_token]
     bot_id = @chat_service.bot_id
+    bot_name = Rails.configuration.bot_name
+
+    Rails.logger.info "Bot name is #{bot_name}"
 
     Telegram::Bot::Client.run(token) do |bot|
       bot.listen do |msg|
@@ -30,6 +33,11 @@ class TelegramBot
             case msg.text.strip
               when '/configure'
                 cmd_configure msg
+              when "/configure@#{bot_name}"  # Telegram clients suggest the configure command
+                                             # looking like that
+                cmd_configure msg
+              else
+                Rails.logger.warn "Undefined command: #{msg.text}"
             end
           end
         rescue
