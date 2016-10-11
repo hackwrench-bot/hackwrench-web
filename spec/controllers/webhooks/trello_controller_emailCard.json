@@ -1,0 +1,75 @@
+{
+  "model":{
+    "id":"563399dd6f56e11e53686990",
+    "name":"Hackwrench Development",
+    "desc":"",
+    "descData":null,
+    "closed":false,
+    "idOrganization":null,
+    "pinned":false,
+    "url":"https://trello.com/b/5JhyNdoQ/hackwrench-development",
+    "shortUrl":"https://trello.com/b/5JhyNdoQ",
+    "prefs":{
+      "permissionLevel":"public",
+      "voting":"disabled",
+      "comments":"members",
+      "invitations":"members",
+      "selfJoin":false,
+      "cardCovers":true,
+      "cardAging":"regular",
+      "calendarFeedEnabled":false,
+      "background":"blue",
+      "backgroundImage":null,
+      "backgroundImageScaled":null,
+      "backgroundTile":false,
+      "backgroundBrightness":"dark",
+      "backgroundColor":"#0079BF",
+      "canBePublic":true,
+      "canBeOrg":true,
+      "canBePrivate":true,
+      "canInvite":true
+    },
+    "labelNames":{
+      "green":"",
+      "yellow":"",
+      "orange":"",
+      "red":"",
+      "purple":"",
+      "blue":"",
+      "sky":"",
+      "lime":"",
+      "pink":"",
+      "black":""
+    }
+  },
+  "action":{
+    "id":"57fd67f5dce79c4ee821caf4",
+    "idMemberCreator":"55cbbaf25a4f4d1d741d9387",
+    "data":{
+      "board":{
+        "shortLink":"5JhyNdoQ",
+        "name":"Hackwrench Development",
+        "id":"563399dd6f56e11e53686990"
+      },
+      "list":{
+        "name":"Ideas",
+        "id":"563399e1d6f903f33a1208fc"
+      },
+      "card":{
+        "shortLink":"zj2iu3DB",
+        "idShort":13,
+        "name":"New Email Card 2",
+        "id":"57fd67f5dce79c4ee821caf3"
+      }
+    },
+    "type":"emailCard",
+    "date":"2016-10-11T22:30:13.706Z",
+    "memberCreator":{
+      "id":"55cbbaf25a4f4d1d741d9387",
+      "avatarHash":"73b1cf45b680869e81006acd3fb58eec",
+      "fullName":"Hendzi Tsaryk",
+      "initials":"HT",
+      "username":"hendzitsaryk"
+    }
+  }
+}

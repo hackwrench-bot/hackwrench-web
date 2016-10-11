@@ -15,7 +15,7 @@ class Webhooks::TrelloController < ApplicationController
 
     begin
       case event_type
-        when 'createCard'
+        when 'createCard', 'emailCard'
           card_created chat, body
         when 'updateCard'
           if action['data'].has_key?('listBefore') && action['data'].has_key?('listAfter')
